@@ -16,27 +16,19 @@ import javax.inject.Inject
 
 class DayViewModel : ViewModel(), LifecycleObserver {
 
+    init {
+        MyDietApplication.appComponent.inject(this)
+    }
+
     @Inject
     lateinit var dietRepository: MyDietRepository
 
     private val compositeDisposable = CompositeDisposable()
-    private var liveDaysData: LiveData<List<Day>>? = null
-
-    init {
-        initializeDagger()
-    }
-
-    private fun initializeDagger() = MyDietApplication.appComponent.inject(this)
-
+    private val liveDaysData: LiveData<List<Day>> get() =  dietRepository.getDaysList()
 
     fun loadDaysList(): LiveData<List<Day>>? {
-        if (liveDaysData == null) {
-            liveDaysData = MutableLiveData<List<Day>>()
-            liveDaysData = dietRepository.getDaysList()
-        }
         return liveDaysData
     }
-
 
     fun initLocalDays() {
         val disposable = dietRepository.getTotalDays()

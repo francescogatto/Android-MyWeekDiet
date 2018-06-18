@@ -45,12 +45,12 @@ class MainFragment : Fragment() {
     private fun loadData () {
         val days =  ArrayList<String>()
         viewModel.loadDaysList()?.observe(this, Observer { daysList ->
-            daysList?.forEach {
-                days.add(it.name)
-            }
+            daysList?.forEach { days.add(it.name) }
             homeRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             homeRecyclerView.adapter = DaysAdapter(days) {
-                //TODO show other fragment
+                activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)
+                        ?.replace(R.id.container, MealsFragment.newInstance(it))
+                        ?.commit()
             }
         })
     }

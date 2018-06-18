@@ -5,6 +5,6 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = RoomContract.TABLE_DAYS)
 data class DayEntity(
-        @PrimaryKey(autoGenerate = true) val id: Long,
+        @PrimaryKey(autoGenerate = false) val id: Long,
         var name: String
 )

@@ -4,14 +4,14 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import java.util.*
 
-@Database(
-        entities = arrayOf(DayEntity::class, MealEntity::class, FoodEntity::class),
-        version = 1)
+@Database(entities = arrayOf(DayEntity::class, MealEntity::class, FoodEntity::class), version = 1)
 abstract class RoomMyDietDataSource : RoomDatabase() {
 
     abstract fun foodDao(): FoodDao
     abstract fun dayDao(): DayDao
+    abstract fun mealDao(): MealDao
 
     companion object {
 
@@ -23,16 +23,26 @@ abstract class RoomMyDietDataSource : RoomDatabase() {
 
         fun getAllDays(): List<DayEntity> {
             val mutableDaysList = mutableListOf<DayEntity>()
-            mutableDaysList.add(createDayEntity("Lunedì"))
-            mutableDaysList.add(createDayEntity("Martedì"))
-            mutableDaysList.add(createDayEntity("Mercoledì"))
-            mutableDaysList.add(createDayEntity("Giovedì"))
-            mutableDaysList.add(createDayEntity("Venerdì"))
-            mutableDaysList.add(createDayEntity("Sabato"))
-            mutableDaysList.add(createDayEntity("Domenica"))
+            mutableDaysList.add(DayEntity(1,"Lunedì"))
+            mutableDaysList.add(DayEntity(2,"Martedì"))
+            mutableDaysList.add(DayEntity(3,"Mercoledì"))
+            mutableDaysList.add(DayEntity(4,"Giovedì"))
+            mutableDaysList.add(DayEntity(5,"Venerdì"))
+            mutableDaysList.add(DayEntity(6,"Sabato"))
+            mutableDaysList.add(DayEntity(7,"Domenica"))
             return mutableDaysList
         }
 
-        private fun createDayEntity(name: String) = DayEntity(0,name)
+        fun getAllMeals(idDay : Long): List<MealEntity> {
+            val mutableDaysList = mutableListOf<MealEntity>()
+            mutableDaysList.add(MealEntity(0,"Colazione",idDay))
+            mutableDaysList.add(MealEntity(0,"Pranzo",idDay))
+            mutableDaysList.add(MealEntity(0,"Cena",idDay))
+            return mutableDaysList
+        }
+
+
+
+       // private fun createMealeEntity(name: String) = MealEntity(0,name)
     }
 }
