@@ -17,4 +17,10 @@ interface FoodDao {
     @Query(RoomContract.SELECT_FOODS)
     fun getAllFoods(): Flowable<List<FoodEntity>>
 
+    @Query(RoomContract.SELECT_FOODS +" WHERE meal_id = :mealId")
+    fun getAllFoodsByMeal(mealId : Long): Flowable<List<FoodEntity>>
+
+    @Insert
+    fun insertFood(food: FoodEntity)
+
 }
