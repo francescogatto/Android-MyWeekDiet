@@ -1,3 +1,3 @@
 package net.francescogatto.myweekdiet.domain
 
-data class Meal (val name :  String)
+data class Meal (val id : Long, val name :  String)

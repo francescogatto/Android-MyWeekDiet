@@ -54,6 +54,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.core:core-ktx:0.3'
+    implementation 'org.jetbrains.anko:anko-coroutines:0.10.5'
+
 
 
     def lifecycle_version = "1.1.1"

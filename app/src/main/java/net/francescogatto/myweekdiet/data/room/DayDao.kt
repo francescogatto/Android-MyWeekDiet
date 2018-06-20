@@ -17,4 +17,8 @@ interface DayDao {
     @Query(RoomContract.SELECT_DAYS)
     fun getAllDays(): Flowable<List<DayEntity>>
 
+    @Query(RoomContract.SELECT_DAYS + " WHERE name = :descrizione")
+    fun getDay(descrizione: String) : Flowable<DayEntity>
+
+
 }

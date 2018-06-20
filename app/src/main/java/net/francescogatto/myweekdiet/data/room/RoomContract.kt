@@ -20,5 +20,8 @@ class RoomContract {
         const val SELECT_DAYS_COUNT = SELECT_COUNT + TABLE_DAYS
         const val SELECT_DAYS = SELECT_FROM + TABLE_DAYS
 
+        const val SELECT_MEALS_COUNT = SELECT_COUNT + TABLE_MEALS
+        const val SELECT_MEALS = SELECT_FROM + TABLE_MEALS
+
     }
 }
