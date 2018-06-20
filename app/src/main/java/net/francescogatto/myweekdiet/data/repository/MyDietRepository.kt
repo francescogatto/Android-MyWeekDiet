@@ -7,9 +7,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import net.francescogatto.myweekdiet.data.room.DayEntity
+import net.francescogatto.myweekdiet.data.room.FoodEntity
 import net.francescogatto.myweekdiet.data.room.MealEntity
 import net.francescogatto.myweekdiet.data.room.RoomMyDietDataSource
 import net.francescogatto.myweekdiet.domain.Day
+import net.francescogatto.myweekdiet.domain.Food
 import net.francescogatto.myweekdiet.domain.Meal
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,8 +26,23 @@ class MyDietRepository @Inject constructor(private val roomMyDietDataSource: Roo
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun addFood() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun addFood(food: Food) {
+        roomMyDietDataSource.foodDao().insertFood(FoodEntity(0, food.mealId,  food.type, food.descr, food.quantity))
+    }
+
+    override fun getFoodsByMeal(mealId: Long) : LiveData<List<FoodEntity>> {
+        val roomFoodDao = roomMyDietDataSource.foodDao()
+        val mutableLiveData = MutableLiveData<List<FoodEntity>>()
+        val disposable = roomFoodDao.getAllFoodsByMeal(mealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    foodList -> mutableLiveData.value = foodList
+                }, {
+                    t: Throwable? -> t?.printStackTrace()
+                })
+        allCompositeDisposable.add(disposable)
+        return mutableLiveData
     }
     //endregion
 
@@ -119,7 +136,7 @@ class MyDietRepository @Inject constructor(private val roomMyDietDataSource: Roo
     private fun transformMeal(currencies: List<MealEntity>): ArrayList<Meal> {
         val dayList = ArrayList<Meal>()
         currencies.forEach {
-            dayList.add(Meal(it.name))
+            dayList.add(Meal(it.id,it.name))
         }
         return dayList
     }

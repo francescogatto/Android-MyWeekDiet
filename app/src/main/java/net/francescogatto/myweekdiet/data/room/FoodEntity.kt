@@ -15,7 +15,7 @@ data class FoodEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Long,
         @ColumnInfo(name = "meal_id")
-        val mealId: Int,
+        val mealId: Long,
         var type: String,
         var descr: String,
         var qty: String
