@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/mainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="net.francescogatto.myweekdiet.MainActivity"
-        android:label="main_activity"
-        tools:layout="@layout/main_activity" />
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="net.francescogatto.myweekdiet.ui.main.MainFragment"
-        android:label="MainFragment" />
 </navigation>

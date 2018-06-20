@@ -5,21 +5,17 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.main_fragment.*
 import net.francescogatto.myweekdiet.R
-import net.francescogatto.myweekdiet.domain.Day
 
-class MainFragment : Fragment() {
+class DaysFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
-        val TAG = "MainFragment"
+        fun newInstance() = DaysFragment()
+        val TAG = "DaysFragment"
     }
 
     private lateinit var viewModel: DayViewModel
@@ -48,7 +44,9 @@ class MainFragment : Fragment() {
             daysList?.forEach { days.add(it.name) }
             homeRecyclerView.layoutManager = GridLayoutManager(activity, 2)
             homeRecyclerView.adapter = DaysAdapter(days) {
-                activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)
+                activity?.supportFragmentManager
+                        ?.beginTransaction()
+                        ?.addToBackStack(null)
                         ?.replace(R.id.container, MealsFragment.newInstance(it))
                         ?.commit()
             }

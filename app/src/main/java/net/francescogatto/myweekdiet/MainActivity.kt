@@ -2,7 +2,7 @@ package net.francescogatto.myweekdiet
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import net.francescogatto.myweekdiet.ui.main.MainFragment
+import net.francescogatto.myweekdiet.ui.main.DaysFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(R.id.container, MainFragment.newInstance())
+                    .add(R.id.container, DaysFragment.newInstance())
                     .commit()
         }
     }

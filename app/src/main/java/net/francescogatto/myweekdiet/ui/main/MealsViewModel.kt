@@ -11,48 +11,26 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import net.francescogatto.myweekdiet.data.repository.MyDietRepository
 import net.francescogatto.myweekdiet.data.room.DayEntity
+import net.francescogatto.myweekdiet.data.room.MealEntity
 import net.francescogatto.myweekdiet.di.MyDietApplication
 import net.francescogatto.myweekdiet.domain.Day
 import net.francescogatto.myweekdiet.domain.Meal
 import javax.inject.Inject
 
-class MealsViewModel : ViewModel(),  LifecycleObserver {
-    @Inject
-    lateinit var dietRepository: MyDietRepository
-
-    private val compositeDisposable = CompositeDisposable()
-    private var liveDayData: LiveData<DayEntity>? = null
-    private var liveMealsData: LiveData<List<Meal>>? = null
-
-    fun loadMealsList(idDay: Long): LiveData<List<Meal>>? {
-        if (liveMealsData == null) {
-            liveMealsData = dietRepository.getAllMealsForDay(idDay)
-        }
-        return liveMealsData
-    }
+class MealsViewModel : BaseViewModel() {
 
     init {
-        initializeDagger()
+        MyDietApplication.appComponent.inject(this)
     }
 
-    private fun initializeDagger() = MyDietApplication.appComponent.inject(this)
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun unSubscribeViewModel() {
-        for (disposable in dietRepository.allCompositeDisposable) {
-            compositeDisposable.addAll(disposable)
-        }
-        compositeDisposable.clear()
-    }
 
     fun getDay(descr: String): LiveData<DayEntity>{
-        if (liveDayData == null) {
-            liveDayData = dietRepository.getSingleDay(descr)
-        }
-        return liveDayData as LiveData<DayEntity>
+        return dietRepository.getSingleDay(descr)
     }
 
-
+    fun loadMealsList(idDay: Long): LiveData<List<Meal>>? {
+        return dietRepository.getAllMealsForDay(idDay)
+    }
 
     fun initLocalMealsForDay(day: DayEntity) {
         val disposable = dietRepository.getTotalMealsForDay(day.id)
@@ -86,11 +64,6 @@ class MealsViewModel : ViewModel(),  LifecycleObserver {
                     Log.e(MyDietRepository::class.java.simpleName, "DataSource hasn't been Populated", e)
                 }
             })
-    }
-
-    override fun onCleared() {
-        unSubscribeViewModel()
-        super.onCleared()
     }
 
 
